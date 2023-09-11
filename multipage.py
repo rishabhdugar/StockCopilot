@@ -36,6 +36,13 @@ class MultiPage:
         # st.sidebar.image('some-image.png', width=200)
         st.sidebar.title("Stock Copilot")
         st.sidebar.write("### Choose your risk portfolio")
+        # Define the slider
+        trader_type = st.sidebar.select_slider(
+            'Select your risk appetite',
+            ['Low', 'Medium', 'Aggressive']
+        )
+        
+        st.sidebar.write(f'You selected {trader_type} risk portfolio.')
         page = st.sidebar.selectbox(
             'Risk Type:', 
             self.pages, 
