@@ -35,7 +35,7 @@ class MultiPage:
         # Drodown to select the page to run  
         # st.sidebar.image('some-image.png', width=200)
         st.sidebar.title("Stock Copilot")
-        st.sidebar.write("### Choose your risk portfolio")
+        st.sidebar.write("### Choose your profile")
         # Define the slider
         trader_type = st.sidebar.select_slider(
             'Select your risk appetite',
@@ -43,11 +43,21 @@ class MultiPage:
         )
         
         st.sidebar.write(f'You selected {trader_type} risk portfolio.')
-        page = st.sidebar.selectbox(
-            'Risk Type:', 
-            self.pages, 
-            format_func=lambda page: page['title']
-        )
+        
+        investment_type = st.sidebar.radio('Investment type', ['Long Term', 'Short Term'])
+        
+        st.sidebar.write(f'You selected {investment_type} investment.')
+        
+        tab1, tab2, tab3 = st.tabs(["Know About Company", "Buy/Sell Recommendation", "Market Sentiment"])
+        tab1.write("Know About Company tab")
+        tab2.write("Buy/Sell Recommendation tab")
+        tab3.write("Market Sentiment tab")
+
+        #page = st.sidebar.selectbox(
+        #    'Risk Type:', 
+        #    self.pages, 
+        #    format_func=lambda page: page['title']
+        #)
 
         # run the app function 
-        page['function'](*page["args"], **page["kwargs"])
+        #page['function'](*page["args"], **page["kwargs"])
