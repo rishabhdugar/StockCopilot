@@ -67,6 +67,7 @@ def get_text():
 
 
 def app():
+    new_chat()
     # Title and description
     st.title("Know Your Company")
     st.write("Ask questions in the chat box below:")
