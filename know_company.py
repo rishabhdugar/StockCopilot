@@ -88,6 +88,10 @@ def app():
     
     if st.button("Future Investment by Microsoft News?"):
         user_input = "Future Investment by Microsoft News?"
+    
+    if st.button("Deepak Nitrite inestment plan in chemical? Which chemicals ?"):
+        user_input = "Deepak Nitrite inestment plan in chemical? Which chemicals ?"
+        
 
     if user_input:
                 add_message("User", user_input)
