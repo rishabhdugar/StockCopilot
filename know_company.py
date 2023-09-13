@@ -24,10 +24,6 @@ if "just_sent" not in st.session_state:
     st.session_state["just_sent"] = False
 if "temp" not in st.session_state:
     st.session_state["temp"] = ""
-if "balance" not in st.session_state:
-    st.session_state["balance"] = 0.0
-if "deposit" not in st.session_state:
-    st.session_state["deposit"] = 3.0
 
 def clear_text():
     st.session_state["temp"] = st.session_state["input"]
@@ -38,6 +34,18 @@ def new_chat():
     Clears session state and starts a new chat.
     """
     save = []
+    if "generated" not in st.session_state:
+        st.session_state["generated"] = []
+    if "past" not in st.session_state:
+        st.session_state["past"] = []
+    if "input" not in st.session_state:
+        st.session_state["input"] = ""
+    if "stored_session" not in st.session_state:
+        st.session_state["stored_session"] = []
+    if "just_sent" not in st.session_state:
+        st.session_state["just_sent"] = False
+    if "temp" not in st.session_state:
+        st.session_state["temp"] = ""
     for i in range(len(st.session_state['generated'])-1, -1, -1):
         save.append("User:" + st.session_state["past"][i])
         save.append("Bot:" + st.session_state["generated"][i])        
