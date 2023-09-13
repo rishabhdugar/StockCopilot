@@ -33,7 +33,7 @@ class MultiPage:
 
     def run(self):
         # Drodown to select the page to run  
-        # st.sidebar.image('some-image.png', width=200)
+        #st.sidebar.image('logo.jpeg', width=100)
         st.sidebar.title("Stock Copilot")
         st.sidebar.write("### Choose your profile")
         # Define the slider
@@ -48,16 +48,12 @@ class MultiPage:
         
         st.sidebar.write(f'You selected {investment_type} investment.')
         
-        tab1, tab2, tab3 = st.tabs(["Know About Company", "Buy/Sell Recommendation", "Market Sentiment"])
-        tab1.write("Know About Company tab")
-        tab2.write("Buy/Sell Recommendation tab")
-        tab3.write("Market Sentiment tab")
 
-        #page = st.sidebar.selectbox(
-        #    'Risk Type:', 
-        #    self.pages, 
-        #    format_func=lambda page: page['title']
-        #)
+        page = st.sidebar.selectbox(
+            'Select a page:', 
+            self.pages, 
+            format_func=lambda page: page['title']
+        )
 
         # run the app function 
-        #page['function'](*page["args"], **page["kwargs"])
+        page['function'](*page["args"], **page["kwargs"])
