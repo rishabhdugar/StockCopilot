@@ -45,8 +45,6 @@ def new_chat():
     st.session_state["generated"] = []
     st.session_state["past"] = []
     st.session_state["input"] = ""
-    st.session_state.entity_memory.store = {}
-    st.session_state.entity_memory.buffer.clear()
 
 # Streamlit UI configuration
 # st.set_page_config(page_title="Chat UI", layout="wide")
