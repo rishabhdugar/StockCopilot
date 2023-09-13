@@ -26,36 +26,35 @@ def app():
     
     candles_df_ticker = tickerDf[['Open', 'High', 'Low', 'Close']]
     candles_df_orig = candles_df_ticker.iloc[1:]
-
-    target = 'InvertedHammers'
     candles_df_orig.index = candles_df_orig.index.tz_convert(None)
-    candles_df_inverted = candlestick.inverted_hammer(candles_df_orig, target=target)
+    
+    # List of targets
+    targets = ['InvertedHammers', 'HangingMan']
 
-    # Find all rows where 'InvertedHammers' is True
-    true_rows = candles_df_inverted[candles_df_inverted['InvertedHammers'] == True]
-
-    # Initialize an empty list to store the strings
+    # Initialize an empty list to store the results
     results = []
 
-    # Iterate over the rows
-    for index, row in true_rows.iterrows():
-        # Create a string with the date and price and add it to the list
-        results.append(f"{target}  formed on Date: {index}, Price: {row['Close']}")
+    # Dictionary of functions
+    functions = {
+        'InvertedHammers': candlestick.inverted_hammer,
+        'HangingMan': candlestick.hanging_man
+        # Add more functions here
+    }
 
-    target = 'HangingMan'
-    candles_df_hanging = candlestick.hanging_man(candles_df_orig, target=target)
+    # Iterate over the targets
+    for target in targets:
+        # Apply the function to the dataframe
+        candles_df_target = functions[target](candles_df_orig, target=target)
 
-    # Find all rows where 'InvertedHammers' is True
-    true_rows = candles_df_hanging[candles_df_hanging['HangingMan'] == True]
+        # Find all rows where the target is True
+        true_rows = candles_df_target[candles_df_target[target] == True]
 
-    # Iterate over the rows
-    for index, row in true_rows.iterrows():
-        # Create a string with the date and price and add it to the list
-        results.append(f"{target}  formed on Date: {index}, Price: {row['Close']}")
+        # Iterate over the rows
+        for index, row in true_rows.iterrows():
+            # Create a string with the date and price and add it to the list
+            results.append(f"{target} formed on Date: {index}, Price: {row['Close']}")
 
     # Print the results
-    print(results)
-    print("final")
     for result in results:
         print(result)
 
