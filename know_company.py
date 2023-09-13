@@ -82,26 +82,27 @@ def app():
     if st.button("Future Investment by Microsoft News?"):
         user_input = "Future Investment by Microsoft News?"
 
+    if user_input:
+                add_message("User", user_input)
+                st.session_state.past.append(user_input)  
+                # Make the API call
+                response = requests.post(api_endpoint, json={"question": user_input})
+
+                # Extract and display the response
+                if response.status_code == 200:
+                    ai_response = response.json().get("response", "No response from the API.")
+                    
+                    st.session_state.generated.append(ai_response) 
+                    add_message("AI", ai_response)
+                else:
+                    add_message("AI", "Error: Failed to get a response from the API.")
+                    
+                    st.session_state.generated.append("Error: Failed to get a response from the API.") 
+
+                user_input = ""
     # Add a button to send the user's message
-    if st.button("Send"):
-        if user_input:
-            add_message("User", user_input)
-            st.session_state.past.append(user_input)  
-            # Make the API call
-            response = requests.post(api_endpoint, json={"question": user_input})
-
-            # Extract and display the response
-            if response.status_code == 200:
-                ai_response = response.json().get("response", "No response from the API.")
-                
-                st.session_state.generated.append(ai_response) 
-                add_message("AI", ai_response)
-            else:
-                add_message("AI", "Error: Failed to get a response from the API.")
-                
-                st.session_state.generated.append("Error: Failed to get a response from the API.") 
-
-            user_input = ""
+    #if st.button("Send"):
+        
 
     download_str = []
     # Display the conversation history using an expander, and allow the user to download it
