@@ -56,7 +56,7 @@ class CandlestickFinder(object):
                         results.append([idxs[row], self.logic(row)])
                     else:
                         results.append([idxs[row], None])
-            candles_df.index = candles_df.index.tz_convert(None)
+            #candles_df.index = candles_df.index.tz_convert(None)
             candles_df = candles_df.join(pd.DataFrame(results, columns=['row', self.target]).set_index('row'),
                                          how='outer')
 
