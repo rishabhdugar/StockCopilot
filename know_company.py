@@ -41,9 +41,6 @@ def new_chat():
     for i in range(len(st.session_state['generated'])-1, -1, -1):
         save.append("User:" + st.session_state["past"][i])
         save.append("Bot:" + st.session_state["generated"][i])
-    st.session_state["generated"] = []
-    st.session_state["past"] = []
-    st.session_state["input"] = ""
 
 # Streamlit UI configuration
 # st.set_page_config(page_title="Chat UI", layout="wide")
@@ -65,8 +62,8 @@ def get_text():
     return input_text
 
 
-new_chat()
 def app():
+    new_chat()
     # Title and description
     st.title("Know Your Company")
     st.write("Ask questions in the chat box below:")
