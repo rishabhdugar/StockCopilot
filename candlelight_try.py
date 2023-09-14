@@ -2,9 +2,10 @@ import streamlit as st
 import yfinance as yf
 from candlestick import candlestick
 import datetime
+from openai import *
 
 # Define the ticker symbol
-tickerSymbol = 'TSLA'
+tickerSymbol = 'SPOT'
 
 
 
@@ -20,9 +21,9 @@ def app():
     start = end - datetime.timedelta(days=15)
 
     # Download the data
-    #tickerDf = yf.Ticker(tickerSymbol).history(period='1d', start=start, end=end)
+    # tickerDf = yf.Ticker(tickerSymbol).history(period='1d', start=start, end=end)
     
-    tickerDf = yf.Ticker(tickerSymbol).history(period='1d', start='2023-03-13', end='2023-05-24')
+    tickerDf = yf.Ticker(tickerSymbol).history(period='1d', start='2023-06-10', end='2023-07-10')
 
     # Select only the 'Open', 'High', 'Low', 'Close' columns
     
@@ -78,4 +79,11 @@ def app():
     for result in results:
         print(result)
 
-    st.markdown(results)
+    st.write(
+            chat_completion(
+                f"You are a Stock assistant. This is some technical analysis on {tickerSymbol}: {results}",
+                f"Categories into bullish / bearish /uncertain patterns for {tickerSymbol}",
+            )
+        )
+
+    
