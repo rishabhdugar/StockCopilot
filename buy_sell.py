@@ -16,9 +16,6 @@ def app():
      # Add a slider for the number of days
     num_days = st.slider('Select number of days', 0, 100, 15)
 
-    # Add a selectbox for the period
-    period = st.selectbox('Select period', ['days', 'week', 'month'])
-
     if selection != "Select...":
         tickerSymbol = ALL_STOCKS[selection]
         # Get data on this ticker
@@ -30,10 +27,6 @@ def app():
 
         # Download the data
         tickerDf = yf.Ticker(tickerSymbol+".NS").history(period='1d', start=start, end=end)
-        
-        #tickerDf = yf.Ticker(tickerSymbol).history(period='1d', start='2023-06-10', end='2023-07-10')
-
-        # Select only the 'Open', 'High', 'Low', 'Close' columns
         
         candles_df_ticker = tickerDf[['Open', 'High', 'Low', 'Close']]
         candles_df_orig = candles_df_ticker.iloc[1:]
@@ -90,7 +83,7 @@ def app():
         st.write(
                 chat_completion(
                     f"You are a Stock assistant. This is some technical analysis on {tickerSymbol}: {results}",
-                    f"Categories into bullish / bearish /uncertain patterns for {tickerSymbol}",
+                    f"Categorize into bullish / bearish /uncertain patterns for {tickerSymbol}",
                 )
             )
 

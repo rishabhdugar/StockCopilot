@@ -58,6 +58,8 @@ def new_chat():
 # st.set_page_config(page_title="Chat UI", layout="wide")
 
 def get_text():
+    if "input" not in st.session_state:
+        st.session_state["input"] = ""
     """
     Get the user input text.
 
@@ -72,8 +74,8 @@ def get_text():
     return input_text
 
 
+new_chat()
 def app():
-    new_chat()
     # Title and description
     st.title("Know Your Company")
     st.write("Ask questions in the chat box below:")
@@ -89,8 +91,8 @@ def app():
     if st.button("Future Investment by Microsoft News?"):
         user_input = "Future Investment by Microsoft News?"
     
-    if st.button("Deepak Nitrite inestment plan in chemical? Which chemicals ?"):
-        user_input = "Deepak Nitrite inestment plan in chemical? Which chemicals ?"
+    if st.button("Deepak Nitrite investment plan in chemical? Which chemicals ?"):
+        user_input = "Deepak Nitrite investment plan in chemical? Which chemicals ?"
         
 
     if user_input:
