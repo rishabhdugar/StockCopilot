@@ -6,7 +6,7 @@ ALL_STOCKS = {
     "HCL Technologies": "HCLTECH",
     "Tech Mahindra": "TECHM",
     "Oracle Financial Services Software": "OFSS",
-    "Larsen & Toubro Infotech": "LTI",
+    "Larsen & Toubro Infotech": "LT",
     "Mphasis": "MPHASIS",
     "Mindtree": "MINDTREE"
 }
