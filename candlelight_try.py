@@ -4,7 +4,7 @@ from candlestick import candlestick
 import datetime
 
 # Define the ticker symbol
-tickerSymbol = 'AAPL'
+tickerSymbol = 'TSLA'
 
 
 
@@ -20,7 +20,9 @@ def app():
     start = end - datetime.timedelta(days=15)
 
     # Download the data
-    tickerDf = yf.Ticker(tickerSymbol).history(period='1d', start=start, end=end)
+    #tickerDf = yf.Ticker(tickerSymbol).history(period='1d', start=start, end=end)
+    
+    tickerDf = yf.Ticker(tickerSymbol).history(period='1d', start='2023-03-13', end='2023-05-24')
 
     # Select only the 'Open', 'High', 'Low', 'Close' columns
     
@@ -29,7 +31,7 @@ def app():
     candles_df_orig.index = candles_df_orig.index.tz_convert(None)
     
     # List of targets
-    targets = ['InvertedHammers', 'HangingMan']
+    targets = ['InvertedHammers', 'HangingMan', 'ShootingStar', 'Doji', 'RainDropDoji', 'BearishHarami', 'BullishHarami', 'GravestoneDoji', 'Star', 'RainDrop', 'PiercingPattern', 'MorningStarDoji', 'MorningStar', 'Hammer', 'BullishEngulfing', 'BearishEngulfing', 'DragonflyDoji', 'DojiStar', 'Doji', 'DarkCloudCover']
 
     # Initialize an empty list to store the results
     results = []
@@ -37,7 +39,25 @@ def app():
     # Dictionary of functions
     functions = {
         'InvertedHammers': candlestick.inverted_hammer,
-        'HangingMan': candlestick.hanging_man
+        'HangingMan': candlestick.hanging_man,
+        'ShootingStar': candlestick.shooting_star,
+        'Doji': candlestick.doji,
+        'RainDropDoji': candlestick.rain_drop_doji,
+        'BearishHarami': candlestick.bearish_harami,
+        'BullishHarami': candlestick.bullish_harami,
+        'GravestoneDoji': candlestick.gravestone_doji,
+        'Star': candlestick.star,
+        'RainDrop': candlestick.rain_drop,
+        'PiercingPattern': candlestick.piercing_pattern,
+        'MorningStarDoji': candlestick.morning_star_doji,
+        'MorningStar': candlestick.morning_star,
+        'Hammer': candlestick.hammer,
+        'BullishEngulfing': candlestick.bullish_engulfing,
+        'BearishEngulfing': candlestick.bearish_engulfing,
+        'DragonflyDoji': candlestick.dragonfly_doji,
+        'DojiStar': candlestick.doji_star,
+        'Doji': candlestick.doji,
+        'DarkCloudCover': candlestick.dark_cloud_cover,
         # Add more functions here
     }
 
