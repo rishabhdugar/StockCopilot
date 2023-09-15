@@ -5,6 +5,7 @@ through an object oriented framework.
 
 # Import necessary libraries 
 import streamlit as st
+from constants import *
 
 # Define the multipage class to manage the multiple apps in our program 
 class MultiPage: 
@@ -39,21 +40,34 @@ class MultiPage:
         # Define the slider
         trader_type = st.sidebar.select_slider(
             'Select your risk appetite',
-            ['Low', 'Medium', 'Aggressive']
+            [e.value for e in TRADER_TYPES]
         )
         
         st.sidebar.write(f'You selected {trader_type} risk portfolio.')
         
-        investment_type = st.sidebar.radio('Investment type', ['Long Term', 'Short Term'])
+        investment_type = st.sidebar.radio('Investment type', [e.value for e in INVESTMENT_TYPES])
         
         st.sidebar.write(f'You selected {investment_type} investment.')
         
+        selection = st.sidebar.selectbox(
+            "Please select the stock for analysis",
+            ["Select..."] + list(ALL_STOCKS.keys()),
+        )
 
         page = st.sidebar.selectbox(
             'Select a page:', 
             self.pages, 
             format_func=lambda page: page['title']
         )
+
+        if selection and selection != "Select...":
+            page['kwargs']['selection'] = selection
+
+        if trader_type:
+            page['kwargs']['trader_type'] = trader_type
+
+        if investment_type:
+            page['kwargs']['investment_type'] = investment_type
 
         # run the app function 
         page['function'](*page["args"], **page["kwargs"])

@@ -3,6 +3,7 @@ import requests
 from constants import *
 from openai import *
 from dotenv import load_dotenv
+from datetime import datetime, timedelta
 
 load_dotenv()  # take environment variables from .env.
 
@@ -16,11 +17,9 @@ headers = {
 }
 
 
-def fetch_telegram(stock="INFY", limit=25):
+def fetch_telegram(stock="INFY", limit=25, from_date="2022-09-30"):
     # Set DNS for finsights to 20.203.40.255
-    url = (
-        f"https://finsights/news/NSE/{stock}/telegram?limit={limit}&offset=0&sort=date"
-    )
+    url = f"https://fin.uaenorth.cloudapp.azure.com/news/NSE/{stock}/telegram?limit={limit}&offset=0&sort=date&from={from_date}"
 
     response = requests.request("GET", url, headers=headers, verify=False)
 
@@ -33,9 +32,9 @@ def fetch_telegram(stock="INFY", limit=25):
     return all_data
 
 
-def fetch_youtube(stock="INFY", limit=2):
+def fetch_youtube(stock="INFY", limit=2, from_date="2022-09-30"):
     # Set DNS for finsights to 20.203.40.255
-    url = f"https://finsights/news/NSE/{stock}/youtube?limit={limit}&offset=0&sort=date"
+    url = f"https://fin.uaenorth.cloudapp.azure.com/news/NSE/{stock}/youtube?limit={limit}&offset=0&sort=date&from={from_date}"
 
     response = requests.request("GET", url, headers=headers, verify=False)
 
@@ -49,9 +48,9 @@ def fetch_youtube(stock="INFY", limit=2):
     return all_data
 
 
-def fetch_reddit(stock="INFY", limit=5):
+def fetch_reddit(stock="INFY", limit=5, from_date="2022-09-30"):
     # Set DNS for finsights to 20.203.40.255
-    url = f"https://finsights/news/NSE/{stock}/reddit?limit={limit}&offset=0&sort=date"
+    url = f"https://fin.uaenorth.cloudapp.azure.com/news/NSE/{stock}/reddit?limit={limit}&offset=0&sort=date&from={from_date}"
 
     response = requests.request("GET", url, headers=headers, verify=False)
 
@@ -65,9 +64,9 @@ def fetch_reddit(stock="INFY", limit=5):
     return all_data
 
 
-def fetch_twitter(stock="INFY", limit=10):
+def fetch_twitter(stock="INFY", limit=10, from_date="2022-09-30"):
     # Set DNS for finsights to 20.203.40.255
-    url = f"https://finsights/news/NSE/{stock}/twitter?limit={limit}&offset=0&sort=date"
+    url = f"https://fin.uaenorth.cloudapp.azure.com/news/NSE/{stock}/twitter?limit={limit}&offset=0&sort=date&from={from_date}"
 
     response = requests.request("GET", url, headers=headers, verify=False)
 
@@ -80,36 +79,34 @@ def fetch_twitter(stock="INFY", limit=10):
     return all_data
 
 
-def app():
+def app(selection=None, trader_type=None, investment_type=None, **kwargs):
     st.markdown("## Market Sentiments")
 
-    # Add selectbox in streamlit
-    selection = st.selectbox(
-        "Please select the stock for sentiment analysis",
-        ["Select..."] + list(ALL_STOCKS.keys()),
-    )
+    user_input = None
+    st.write("Ask something about the stock")
+    if st.button("List down the positives and negatives"):
+        user_input = "List down the positives and negatives"
 
-    question = st.selectbox(
-        "Ask something about the stock",
-        ["Select..."]
-        + [
-            "List down the positives and negatives",
-            "What's some levels to watch out for?",
-            "What's the sentiment",
-            "Future endeavours",
-        ],
-    )
+    if st.button("What's some levels to watch out for"):
+        user_input = "What's some levels to watch out for"
+
+    if st.button("What's the sentiment"):
+        user_input = "What's the sentiment"
+
+    from_date = (
+        datetime.now() - timedelta(days=get_duration(investment_type))
+    ).strftime("%Y-%m-%d")
 
     # Check if a valid option is selected
-    if selection != "Select..." and question != "Select...":
+    if selection and selection != "Select..." and user_input:
         symbol = ALL_STOCKS[selection]
-        data = fetch_telegram(stock=symbol)
-        data += fetch_reddit(stock=symbol)
-        data += fetch_youtube(stock=symbol)
+        data = fetch_telegram(stock=symbol, from_date=from_date)
+        data += fetch_reddit(stock=symbol, from_date=from_date)
+        data += fetch_youtube(stock=symbol, from_date=from_date)
         print(f"Found {len(data)} messages for {symbol}")
         st.write(
             chat_completion(
                 f"You are a Stock assistant. This is some recent discussion on {selection}: {data}",
-                f"{question} in {selection}",
+                f"{user_input} in {selection}",
             )
         )

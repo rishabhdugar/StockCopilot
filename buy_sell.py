@@ -1,29 +1,24 @@
 import streamlit as st
 import yfinance as yf
 from candlestick import candlestick
-import datetime
+from datetime import date, timedelta
 from openai import *
 from constants import *
 
-def app():
+def app(selection=None, **kwargs):
     st.markdown("## Technical Analysis - Buy/Sell Recommendation")
     
-    selection = st.selectbox(
-        "Please select the stock for sentiment analysis",
-        ["Select..."] + list(ALL_STOCKS.keys()),
-    )
-
      # Add a slider for the number of days
     num_days = st.slider('Select number of days', 0, 100, 15)
 
-    if selection != "Select...":
+    if selection and selection != "Select...":
         tickerSymbol = ALL_STOCKS[selection]
         # Get data on this ticker
         tickerData = yf.Ticker(tickerSymbol)
-        end = datetime.date.today()
+        end = date.today()
 
         # Calculate the start date as num_days before the end date
-        start = end - datetime.timedelta(days=num_days)
+        start = end - timedelta(days=num_days)
 
         # Download the data
         tickerDf = yf.Ticker(tickerSymbol+".NS").history(period='1d', start=start, end=end)
