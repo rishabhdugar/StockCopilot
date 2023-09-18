@@ -62,7 +62,7 @@ def get_text():
     return input_text
 
 
-def app():
+def app(**kwargs):
     new_chat()
     # Title and description
     st.title("Know Your Company")
