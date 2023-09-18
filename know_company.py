@@ -76,8 +76,8 @@ def app():
     if st.button("What's the outlook of Microsoft?"):
         user_input = "What's the outlook of Microsoft?"
     
-    if st.button("Future Investment by Microsoft News?"):
-        user_input = "Future Investment by Microsoft News?"
+    if st.button("How was recent growth news about Microsoft??"):
+        user_input = "How was recent growth news about Microsoft??"
     
     if st.button("Deepak Nitrite investment plan in chemical? Which chemicals ?"):
         user_input = "Deepak Nitrite investment plan in chemical? Which chemicals ?"
