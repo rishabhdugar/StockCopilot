@@ -10,6 +10,7 @@ def app(selection=None, **kwargs):
     
      # Add a slider for the number of days
     num_days = st.slider('Select number of days', 0, 100, 15)
+    label_testing = 8
 
     if selection and selection != "Select...":
         tickerSymbol = ALL_STOCKS[selection]
